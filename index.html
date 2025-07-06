@@ -147,6 +147,124 @@
         }
         /* Add pointer cursor for clickable certificate cards */
         .certificate-card { cursor: pointer; }
+        
+        /* Mobile Optimizations */
+        @media (max-width: 768px) {
+            /* Navigation */
+            #main-nav { padding: 0.75rem 1rem; }
+            #main-nav-links { display: none; }
+            #page-navigator { display: none; }
+            
+            /* Home Section */
+            #home { padding-top: 5rem; padding-bottom: 2rem; }
+            #home .grid { grid-template-columns: 1fr; gap: 2rem; }
+            #home h2 { font-size: 2.5rem; line-height: 1.2; }
+            #home .w-64.h-64 { width: 200px; height: 200px; }
+            #home .sm\:w-80.sm\:h-80 { width: 200px; height: 200px; }
+            
+            /* About Section */
+            #about { padding: 3rem 1rem; }
+            #about .grid { grid-template-columns: 1fr; gap: 2rem; }
+            #about .max-w-md { max-width: 100%; }
+            #about .space-y-8 > div { padding: 1.5rem; }
+            #about .grid.grid-cols-1.md\:grid-cols-2 { grid-template-columns: 1fr; }
+            
+            /* Skills Section */
+            #skills { padding: 3rem 1rem; }
+            #skills-tabs-container { margin-bottom: 2rem; }
+            #skills-tabs-container .flex { flex-wrap: wrap; gap: 0.5rem; }
+            #skills-tabs-container button { font-size: 0.875rem; padding: 0.5rem 1rem; }
+            #skills-content-container .grid { grid-template-columns: 1fr; gap: 1rem; }
+            
+            /* Certifications Section */
+            #certifications { padding: 3rem 1rem; }
+            #certifications-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .certificate-card { max-width: 100%; }
+            
+            /* Projects Section */
+            #projects { padding: 3rem 1rem; }
+            #project-filters { gap: 0.5rem; margin-bottom: 2rem; }
+            #project-filters button { font-size: 0.875rem; padding: 0.5rem 1rem; }
+            #project-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .project-card { height: 300px; }
+            .project-card h3 { font-size: 1.25rem; }
+            
+            /* Contact Section */
+            #contact { padding: 3rem 1rem; }
+            #contact .grid { grid-template-columns: 1fr; gap: 2rem; }
+            #contact .p-10.sm\:p-12 { padding: 1.5rem; }
+            #contact .space-y-7 > div { margin-bottom: 1.5rem; }
+            
+            /* Footer */
+            footer { padding: 2rem 1rem; }
+            footer .grid { grid-template-columns: 1fr; gap: 2rem; text-align: center; }
+            
+            /* Modals */
+            .modal-content { width: 95vw !important; height: 95vh !important; max-width: none !important; max-height: none !important; }
+            
+            /* Scroll to top button */
+            #scrollToTopBtn { bottom: 1rem; right: 1rem; width: 3rem; height: 3rem; }
+            
+            /* Typography adjustments */
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+            p { font-size: 0.875rem; }
+            
+            /* Button adjustments */
+            .px-6.py-3 { padding: 0.75rem 1.5rem; }
+            .px-8.py-3 { padding: 0.75rem 1.5rem; }
+            
+            /* Spacing adjustments */
+            .py-24 { padding-top: 3rem; padding-bottom: 3rem; }
+            .mb-16 { margin-bottom: 2rem; }
+            .gap-12 { gap: 2rem; }
+            .gap-8 { gap: 1.5rem; }
+        }
+        
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            #home h2 { font-size: 2rem; }
+            #home .text-lg { font-size: 1rem; }
+            .certificate-card { padding: 1rem; }
+            .project-card { height: 250px; }
+            #contact .p-10.sm\:p-12 { padding: 1rem; }
+            .modal-content { width: 98vw !important; height: 98vh !important; }
+        }
+        
+        /* Mobile navigation menu */
+        .mobile-menu-btn { display: none; }
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            #main-nav-links { display: none; }
+        }
+        
+        /* Touch-friendly interactions */
+        @media (hover: none) and (pointer: coarse) {
+            .project-card:hover { transform: none; }
+            .certificate-card:hover { transform: none; }
+            button:hover { transform: none; }
+            a:hover { transform: none; }
+        }
+        
+        /* Mobile-specific improvements */
+        @media (max-width: 768px) {
+            /* Improve touch targets */
+            button, a { min-height: 44px; min-width: 44px; }
+            
+            /* Better spacing for mobile */
+            .space-y-4 > * + * { margin-top: 1rem; }
+            .space-y-6 > * + * { margin-top: 1.5rem; }
+            .space-y-8 > * + * { margin-top: 2rem; }
+            
+            /* Improve form inputs on mobile */
+            input, textarea, select { font-size: 16px; } /* Prevents zoom on iOS */
+            
+            /* Better modal handling */
+            .modal-content { border-radius: 0; }
+            
+            /* Improve scroll performance */
+            * { -webkit-overflow-scrolling: touch; }
+        }
     </style>
 </head>
 
@@ -154,12 +272,37 @@
     <!-- Navigation Menu -->
     <nav id="main-nav" class="fixed top-0 w-full py-4 px-4 sm:px-6 lg:px-8 z-40 transition-all duration-300 ease-in-out">
         <div class="max-w-7xl mx-auto flex justify-between items-center relative">
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-btn" class="mobile-menu-btn lg:hidden text-white hover:text-accent transition-colors duration-300">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+            
             <ul id="main-nav-links" class="absolute left-1/2 transform -translate-x-1/2 flex space-x-6 text-base text-white"></ul>
             <div class="ml-auto flex items-center space-x-3 sm:space-x-4">
                 <a href="#contact" id="hire-me-btn" class="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">Hire Me</a>
             </div>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Menu -->
+    <div id="mobile-menu" class="fixed inset-0 z-50 hidden">
+        <div class="fixed inset-0 bg-black bg-opacity-50" id="mobile-menu-overlay"></div>
+        <div class="fixed inset-y-0 left-0 w-64 bg-primary shadow-xl transform -translate-x-full transition-transform duration-300 ease-in-out" id="mobile-menu-panel">
+            <div class="flex items-center justify-between p-4 border-b border-accent/30">
+                <h3 class="text-lg font-semibold text-white">Menu</h3>
+                <button id="mobile-menu-close" class="text-white hover:text-accent transition-colors duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="p-4">
+                <ul id="mobile-nav-links" class="space-y-4"></ul>
+            </nav>
+        </div>
+    </div>
 
     <!-- Side Navigation -->
     <div id="page-navigator"></div>
@@ -398,10 +541,12 @@
                     return {
                         main: `<li class="relative group"><a href="#${id}" class="text-white hover:text-accent transition-colors duration-300">${s}</a><span class="absolute bottom-0 left-0 w-full h-0.5 bg-accent scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out"></span></li>`,
                         side: `<li><a href="#${id}" data-section="${id}" title="${s}"></a><span class="nav-tooltip">${s}</span></li>`,
+                        mobile: `<li><a href="#${id}" class="block text-white hover:text-accent transition-colors duration-300 py-2 px-4 rounded-lg hover:bg-accent/20">${s}</a></li>`,
                         footer: `<li><a href="#${id}" class="text-text-secondary hover:text-accent transition-colors duration-300 text-sm">${s}</a></li>`
                     };
                 });
                 $('#main-nav-links').innerHTML = navHtml.map(n => n.main).join('');
+                $('#mobile-nav-links').innerHTML = navHtml.map(n => n.mobile).join('');
                 $('#page-navigator').innerHTML = `<ul>${navHtml.map(n => n.side).join('')}</ul>`;
                 $('#footer-links').innerHTML = navHtml.map(n => n.footer).join('');
             },
@@ -584,6 +729,47 @@
                     iframe.src = 'about:blank';
                     document.body.classList.remove('modal-open');
                 }
+            },
+            mobileMenu: () => {
+                const mobileMenu = $('#mobile-menu');
+                const mobileMenuPanel = $('#mobile-menu-panel');
+                const mobileMenuBtn = $('#mobile-menu-btn');
+                const mobileMenuClose = $('#mobile-menu-close');
+                const mobileMenuOverlay = $('#mobile-menu-overlay');
+
+                const openMobileMenu = () => {
+                    mobileMenu.classList.remove('hidden');
+                    setTimeout(() => {
+                        mobileMenuPanel.classList.remove('-translate-x-full');
+                    }, 10);
+                    document.body.classList.add('overflow-hidden');
+                };
+
+                const closeMobileMenu = () => {
+                    mobileMenuPanel.classList.add('-translate-x-full');
+                    setTimeout(() => {
+                        mobileMenu.classList.add('hidden');
+                    }, 300);
+                    document.body.classList.remove('overflow-hidden');
+                };
+
+                mobileMenuBtn.addEventListener('click', openMobileMenu);
+                mobileMenuClose.addEventListener('click', closeMobileMenu);
+                mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+
+                // Close mobile menu when clicking on a link
+                $('#mobile-nav-links').addEventListener('click', (e) => {
+                    if (e.target.tagName === 'A') {
+                        closeMobileMenu();
+                    }
+                });
+
+                // Close mobile menu on escape key
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && !mobileMenu.classList.contains('hidden')) {
+                        closeMobileMenu();
+                    }
+                });
             }
         };
 
@@ -605,6 +791,7 @@
             $('#project-filters').addEventListener('click', handlers.projectFilter);
             handlers.modal();
             handlers.certificateModal();
+            handlers.mobileMenu();
 
             $('#current-year').textContent = new Date().getFullYear();
 
