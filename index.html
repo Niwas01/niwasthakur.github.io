@@ -186,8 +186,10 @@
             #project-filters { gap: 0.5rem; margin-bottom: 2rem; }
             #project-filters button { font-size: 0.875rem; padding: 0.5rem 1rem; }
             #project-grid { grid-template-columns: 1fr; gap: 1.5rem; }
-            .project-card { height: 300px; }
+            .project-card { height: 350px; }
             .project-card h3 { font-size: 1.25rem; }
+            .project-card p { opacity: 1 !important; }
+            .project-card .text-slate-300 { color: #cbd5e1 !important; }
             
             /* Contact Section */
             #contact { padding: 3rem 1rem; }
@@ -201,6 +203,9 @@
             
             /* Modals */
             .modal-content { width: 95vw !important; height: 95vh !important; max-width: none !important; max-height: none !important; }
+            #projectIframeModal .modal-content { width: 98vw !important; height: 98vh !important; }
+            #certificateIframeModal .modal-content { width: 98vw !important; height: 98vh !important; }
+            .modal-content .relative { height: calc(98vh - 80px) !important; }
             
             /* Scroll to top button */
             #scrollToTopBtn { bottom: 1rem; right: 1rem; width: 3rem; height: 3rem; }
@@ -226,7 +231,8 @@
             #home h2 { font-size: 2rem; }
             #home .text-lg { font-size: 1rem; }
             .certificate-card { padding: 1rem; }
-            .project-card { height: 250px; }
+            .project-card { height: 300px; }
+            .project-card p { opacity: 1 !important; font-size: 0.875rem; }
             #contact .p-10.sm\:p-12 { padding: 1rem; }
             .modal-content { width: 98vw !important; height: 98vh !important; }
         }
@@ -264,6 +270,42 @@
             
             /* Improve scroll performance */
             * { -webkit-overflow-scrolling: touch; }
+            
+            /* Project card improvements for mobile */
+            .project-card { position: relative; }
+            .project-card .relative.z-10 { height: 100%; display: flex; flex-direction: column; justify-content: flex-end; }
+            .project-card p { opacity: 1 !important; margin-bottom: 1rem; line-height: 1.4; }
+            .project-card .flex.flex-wrap.gap-2 { margin-bottom: 1rem; }
+            
+            /* Ensure project content is always visible */
+            .project-card .text-slate-300 { 
+                color: #cbd5e1 !important; 
+                opacity: 1 !important; 
+                display: block !important;
+                margin-bottom: 0.75rem;
+            }
+            
+            /* Modal improvements */
+            .modal-content { 
+                margin: 1vh !important; 
+                width: 98vw !important; 
+                height: 98vh !important; 
+                max-width: none !important; 
+                max-height: none !important; 
+            }
+            
+            /* Better modal header */
+            .modal-content .flex.justify-between { 
+                padding: 1rem; 
+                background: #f8fafc; 
+                border-bottom: 1px solid #e2e8f0; 
+            }
+            
+            /* Modal iframe container */
+            .modal-content .relative { 
+                height: calc(98vh - 80px) !important; 
+                max-height: none !important; 
+            }
         }
     </style>
 </head>
@@ -448,8 +490,17 @@
       <div class="flex items-center justify-center min-h-screen px-1 text-center">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true"><div class="absolute inset-0 bg-gray-900 opacity-75"></div></div>
         <div class="modal-content inline-block align-middle bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all w-[96vw] h-[96vh]" style="width:96vw; height:96vh; max-width:1600px; max-height:1000px;">
-          <div class="flex justify-between items-center p-4"><h3 id="iframeModalTitle" class="text-xl font-bold text-gray-900">Project Details</h3><button id="closeIframeModal" class="text-gray-400 hover:text-gray-500 focus:outline-none"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></div>
-          <div class="relative" style="height:calc(96vh - 64px); max-height:calc(1000px - 64px);"><iframe id="projectIframe" src="" frameborder="0" class="w-full h-full rounded-b-2xl" style="background:white;"></iframe></div>
+          <div class="flex justify-between items-center p-4 border-b border-gray-200">
+            <h3 id="iframeModalTitle" class="text-xl font-bold text-gray-900">Project Details</h3>
+            <button id="closeIframeModal" class="text-gray-400 hover:text-gray-500 focus:outline-none p-2">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="relative" style="height:calc(96vh - 80px); max-height:calc(1000px - 80px);">
+            <iframe id="projectIframe" src="" frameborder="0" class="w-full h-full rounded-b-2xl" style="background:white;"></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -459,8 +510,17 @@
       <div class="flex items-center justify-center min-h-screen px-1 text-center">
         <div class="fixed inset-0 transition-opacity" aria-hidden="true"><div class="absolute inset-0 bg-gray-900 opacity-75"></div></div>
         <div class="modal-content inline-block align-middle bg-white rounded-2xl text-left overflow-hidden shadow-2xl transform transition-all w-[96vw] h-[96vh]" style="width:96vw; height:96vh; max-width:1200px; max-height:900px;">
-          <div class="flex justify-end items-center p-4"><button id="closeCertificateModal" class="text-gray-400 hover:text-gray-500 focus:outline-none"><svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button></div>
-          <div class="relative" style="height:calc(96vh - 64px); max-height:calc(900px - 64px);"><iframe id="certificateIframe" src="" frameborder="0" class="w-full h-full rounded-b-2xl" style="background:white;"></iframe></div>
+          <div class="flex justify-between items-center p-4 border-b border-gray-200">
+            <h3 class="text-xl font-bold text-gray-900">Certificate</h3>
+            <button id="closeCertificateModal" class="text-gray-400 hover:text-gray-500 focus:outline-none p-2">
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="relative" style="height:calc(96vh - 80px); max-height:calc(900px - 80px);">
+            <iframe id="certificateIframe" src="" frameborder="0" class="w-full h-full rounded-b-2xl" style="background:white;"></iframe>
+          </div>
         </div>
       </div>
     </div>
