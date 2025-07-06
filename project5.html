@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 5: Agile Requirements Framework</title>
+    <!-- Link to Tailwind CSS CDN for utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS custom configuration for new colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        /* Global colors (can be kept consistent) */
+                        'dark-navy': '#1A2C42',
+                        'light-gray-bg': '#F9FAFB',
+
+                        /* New palette for Project 5: A Vibrant Teal/Cyan Theme */
+                        'project5-accent': '#4DB6AC', /* Main accent teal */
+                        'project5-light': '#E0F2F7',  /* Lightest teal for backgrounds */
+                        'project5-medium': '#B2EBF2', /* Medium teal for borders/subtle elements */
+                        'project5-dark': '#00838F',   /* Darker teal for text/strong elements */
+                        'project5-darker': '#006064', /* Even darker for hover/active states */
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Link to Google Fonts for 'Inter' font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Library CSS for animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f8fafc; /* Light gray background */
+        }
+        /* Gradient overlay for hero image for better text readability */
+        .hero-gradient-overlay {
+            /* Changed gradient colors to match the new teal palette */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.7) 100%);
+        }
+
+        /* Custom animation for section entry */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fadeInSlideUp {
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+        }
+
+        /* Specific delay classes for staggering animations */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body class="bg-light-gray-bg text-gray-800 antialiased">
+
+    <!-- Project Hero Section - More dynamic and visually striking -->
+    <section class="relative bg-gradient-to-r from-project5-dark to-project5-accent text-white py-24 sm:py-36 px-4 sm:px-6 lg:px-8 overflow-hidden rounded-b-[40px] shadow-2xl">
+        <div class="absolute inset-0 z-0">
+            <!-- New hero background image for agile framework -->
+            <img src="https://images.unsplash.com/photo-1557426189-9b5f5432d5b6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80"
+                 alt="Agile framework background" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 hero-gradient-overlay"></div>
+        </div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="text-project5-light text-base sm:text-lg font-semibold uppercase tracking-widest mb-4 block" data-aos="fade-down" data-aos-duration="800">Adaptive Solutions</span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">Agile Requirements Framework</h1>
+            <p class="text-project5-medium text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                Designed and implemented an agile framework for requirements elicitation and management, integrating seamlessly with project management tools.
+            </p>
+            <div class="mt-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                <!-- Discover More button using teal accent -->
+                <a href="#overview" class="inline-flex items-center px-8 py-3 bg-white text-project5-darker text-lg font-bold rounded-full shadow-xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    Discover More
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview & Details Section -->
+    <section id="overview" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white max-w-7xl mx-auto rounded-3xl shadow-xl -mt-16 relative z-10 mb-12" data-aos="fade-up" data-aos-duration="1000">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Column: Overview Text -->
+            <div class="order-2 lg:order-1" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="100">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-dark-navy mb-6">Business Problem</h2>
+                <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                    Traditional waterfall methodologies often lead to rigid requirements, delays in feedback, and a disconnect between business needs and delivered solutions. In fast-paced environments, the inability to adapt to changing requirements efficiently can severely impact project success and product relevance.
+                </p>
+                <p class="text-gray-700 text-base leading-relaxed mb-8">
+                    This project addressed the need for a more flexible and collaborative approach to requirements management. By implementing an agile framework, we aimed to enhance stakeholder engagement, ensure continuous alignment with evolving business priorities, and facilitate rapid iteration and delivery of high-quality products.
+                </p>
+
+                <h3 class="text-2xl font-bold text-project5-darker mb-4">Core Objectives</h3>
+                <ul class="list-none space-y-3 text-gray-700 text-base mb-8">
+                    <li class="flex items-start group hover:text-project5-dark transition-colors duration-200">
+                        <div class="flex-shrink-0 text-project5-dark mr-3 transform group-hover:translate-x-1 transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        Improve responsiveness to changing business requirements.
+                    </li>
+                    <li class="flex items-start group hover:text-project5-dark transition-colors duration-200">
+                        <div class="flex-shrink-0 text-project5-dark mr-3 transform group-hover:translate-x-1 transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        Enhance collaboration between business and development teams.
+                    </li>
+                    <li class="flex items-start group hover:text-project5-dark transition-colors duration-200">
+                        <div class="flex-shrink-0 text-project5-dark mr-3 transform group-hover:translate-x-1 transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        Accelerate delivery of valuable product increments.
+                    </li>
+                    <li class="flex items-start group hover:text-project5-dark transition-colors duration-200">
+                        <div class="flex-shrink-0 text-project5-dark mr-3 transform group-hover:translate-x-1 transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        Improve transparency and visibility of project progress.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Column: Project Image -->
+            <div class="order-1 lg:order-2" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1518655061717-b080f55f2d48?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Agile Board" 
+                     class="rounded-2xl shadow-2xl w-full h-auto object-cover transform transition-transform duration-500 hover:scale-105 hover:shadow-3xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Insights & Methodologies Section -->
+    <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-project5-light max-w-7xl mx-auto rounded-3xl shadow-xl my-12" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Key Achievements -->
+            <div data-aos="fade-right" data-aos-duration="1000" data-aos-delay="300">
+                <h3 class="text-3xl font-extrabold text-dark-navy mb-8">Impactful Achievements</h3>
+                <div class="space-y-8">
+                    <div class="flex items-start p-4 bg-white rounded-xl shadow-md border border-project5-medium hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex-shrink-0 p-3 bg-project5-medium rounded-full mr-4 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-project5-darker" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-project5-darker mb-1">Improved Requirements Clarity</h4>
+                            <p class="text-gray-700 text-base">Enhanced clarity and completeness of requirements by <span class="font-bold text-project5-darker">20%</span> through user stories and acceptance criteria.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 bg-white rounded-xl shadow-md border border-project5-medium hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex-shrink-0 p-3 bg-project5-medium rounded-full mr-4 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-project5-darker" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 1m3-1V4m0 4h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2zm5-11h4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-project5-darker mb-1">Accelerated Feature Delivery</h4>
+                            <p class="text-gray-700 text-base">Reduced time-to-market for new features by <span class="font-bold text-project5-darker">15%</span> through iterative development cycles.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 bg-white rounded-xl shadow-md border border-project5-medium hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex-shrink-0 p-3 bg-project5-medium rounded-full mr-4 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-project5-darker" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V9m0 3v1m0 3v1m0 1H9m-6 0h.01M21 12h.01M3 12H2m8-6H9m-6 0h.01M18 4h.01M3 4h.01M9 18h.01" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-project5-darker mb-1">Improved Stakeholder Engagement</h4>
+                            <p class="text-gray-700 text-base">Fostered stronger collaboration and communication between business and technical teams.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Methodologies -->
+            <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="400">
+                <h3 class="text-3xl font-extrabold text-dark-navy mb-8">Strategic Approach</h3>
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-project5-medium space-y-6">
+                    <div class="flex items-start" data-aos="fade-up" data-aos-duration="800" data-aos-delay="50">
+                        <span class="flex-shrink-0 text-project5-darker font-bold text-3xl mr-4">01.</span>
+                        <div>
+                            <h4 class="text-xl font-semibold text-project5-darker mb-1">User Story & Epic Development</h4>
+                            <p class="text-gray-700 text-base">Collaboratively defined user stories and epics with stakeholders to capture functional and non-functional requirements in an agile format, using tools like JIRA.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start" data-aos="fade-up" data-aos-duration="800" data-aos-delay="150">
+                        <span class="flex-shrink-0 text-project5-darker font-bold text-3xl mr-4">02.</span>
+                        <div>
+                            <h4 class="text-xl font-semibold text-project5-darker mb-1">Backlog Refinement & Prioritization</h4>
+                            <p class="text-gray-700 text-base">Facilitated regular backlog refinement sessions, prioritizing features based on business value, feasibility, and dependencies, ensuring a focused development effort.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start" data-aos="fade-up" data-aos-duration="800" data-aos-delay="250">
+                        <span class="flex-shrink-0 text-project5-darker font-bold text-3xl mr-4">03.</span>
+                        <div>
+                            <h4 class="text-xl font-semibold text-project5-darker mb-1">Cross-Functional Team Collaboration</h4>
+                            <p class="text-gray-700 text-base">Promoted continuous communication and collaboration between product owners, development teams, and QA through daily stand-ups and sprint reviews.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start" data-aos="fade-up" data-aos-duration="800" data-aos-delay="350">
+                        <span class="flex-shrink-0 text-project5-darker font-bold text-3xl mr-4">04.</span>
+                        <div>
+                            <h4 class="text-xl font-semibold text-project5-darker mb-1">Acceptance Criteria & Definition of Done</h4>
+                            <p class="text-gray-700 text-base">Established clear acceptance criteria for each user story and a robust Definition of Done, ensuring high-quality deliverables and alignment with business expectations.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Used Section -->
+    <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-light-gray-bg rounded-3xl max-w-7xl mx-auto my-12 shadow-xl" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+        <h3 class="text-3xl font-extrabold text-dark-navy mb-12 text-center">Technologies & Tools Utilized</h3>
+        <div class="flex flex-wrap justify-center gap-8">
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-project5-medium text-project5-darker shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="50">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Atlassian_Jira_logo.svg/800px-Atlassian_Jira_logo.svg.png" alt="JIRA Logo" class="w-14 h-14 mb-2 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                JIRA
+            </span>
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-project5-medium text-project5-darker shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="150">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Confluence_logo.svg/800px-Confluence_logo.svg.png" alt="Confluence Logo" class="w-14 h-14 mb-2 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                Confluence
+            </span>
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-project5-medium text-project5-darker shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="250">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 mb-2 text-project5-darker group-hover:text-project5-dark transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13.5m0-13.5C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13.5C4.168 19.477 5.754 19 7.5 19s3.332.477 4.5 1.253m0-13.5C13.168 5.477 14.754 5 16.5 5s3.332.477 4.5 1.253v13.5C19.832 19.477 18.246 19 16.5 19s-3.332.477-4.5 1.253" />
+                </svg>
+                Scrum
+            </span>
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-project5-medium text-project5-darker shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="350">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 mb-2 text-project5-darker group-hover:text-project5-dark transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M3 19l6 3V6L3 3v13c0 1.657 2.238 3 5 3s5-1.343 5-3V5c0-1.657-2.238-3-5-3S3 3.343 3 5v14z" />
+                </svg>
+                User Stories
+            </span>
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-project5-medium text-project5-darker shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="450">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 mb-2 text-project5-darker group-hover:text-project5-dark transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 20l-4-4 4-4" />
+                </svg>
+                Business Analysis
+            </span>
+        </div>
+    </section>
+
+    <!-- Call to Action / Explore More Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-dark-navy text-white text-center rounded-t-[40px] shadow-2xl">
+        <h2 class="text-3xl sm:text-4xl font-extrabold mb-6" data-aos="fade-up" data-aos-duration="800">Ready to Deep Dive into Data?</h2>
+        <p class="text-project5-medium text-lg max-w-3xl mx-auto mb-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+            Explore more of my projects where I leverage business analysis and data science to solve complex challenges and drive tangible results.
+        </p>
+        <!-- View All Projects button using teal accent -->
+        <a href="index.html#projects" class="inline-flex items-center justify-center px-8 py-3 border border-project5-accent bg-project5-dark text-lg font-bold rounded-full shadow-lg hover:bg-project5-darker hover:border-project5-accent transition-all duration-300 transform hover:-translate-y-1" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            View All Projects
+            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark-navy text-white pt-10 pb-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-project5-medium">&copy; 2024 Niwas Kumar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="fixed bottom-6 right-6 bg-project5-dark text-white p-3 rounded-full shadow-lg hover:bg-project5-darker transition-opacity duration-300 z-50 opacity-0 transform scale-0 hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
+    <!-- AOS Library JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true, // Whether animation should happen only once - while scrolling down
+            offset: 80, // Offset (in px) from the top of the screen to trigger animations, adjusted for better timing
+            duration: 800, // Values from 0 to 3000, with step 50ms
+            easing: 'ease-out-cubic', // Easing function for animations
+            delay: 50 // Delay (in ms) before initialize AOS
+        });
+
+        // Scroll to Top Button Logic
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('opacity-100', 'scale-100');
+                scrollTopBtn.classList.remove('opacity-0', 'scale-0');
+            } else {
+                scrollTopBtn.classList.remove('opacity-100', 'scale-100');
+                scrollTopBtn.classList.add('opacity-0', 'scale-0');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+    </script>
+</body>
+</html>

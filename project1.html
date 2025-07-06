@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Performance Dashboard</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#4F46E5',
+                        'primary-dark': '#4338CA',
+                        'primary-light': '#EEF2FF',
+                        'secondary': '#10B981',
+                        'secondary-dark': '#059669',
+                        'secondary-light': '#ECFDF5',
+                        'tertiary': '#F59E0B',
+                        'tertiary-dark': '#D97706',
+                        'tertiary-light': '#FEF3C7',
+                        'accent': '#EC4899',
+                        'accent-dark': '#DB2777',
+                        'accent-light': '#FCE7F3',
+                        'neutral-50': '#F9FAFB',
+                        'neutral-100': '#F3F4F6',
+                        'neutral-200': '#E5E7EB',
+                        'neutral-300': '#D1D5DB',
+                        'neutral-400': '#9CA3AF',
+                        'neutral-500': '#6B7280',
+                        'neutral-600': '#4B5563',
+                        'neutral-700': '#374151',
+                        'neutral-800': '#1F2937',
+                        'neutral-900': '#111827',
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 0 20px rgba(0, 0, 0, 0.05)',
+                        'card-hover': '0 0 30px rgba(0, 0, 0, 0.1)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F9FAFB;
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F3F4F6;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #9CA3AF;
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6B7280;
+        }
+        
+        /* Card hover effects */
+        .dashboard-card {
+            transition: all 0.3s ease;
+        }
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Progress bar animation */
+        @keyframes progress {
+            0% { width: 0; }
+        }
+        .animate-progress {
+            animation: progress 1.5s ease-out forwards;
+        }
+        
+        /* Custom toggle switch */
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E5E7EB;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #4F46E5;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* Table styling */
+        .data-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        .data-table th {
+            background-color: #F9FAFB;
+            padding: 12px 16px;
+            font-weight: 500;
+            text-align: left;
+            color: #4B5563;
+            border-bottom: 1px solid #E5E7EB;
+        }
+        .data-table td {
+            padding: 12px 16px;
+            border-bottom: 1px solid #F3F4F6;
+        }
+        .data-table tbody tr {
+            transition: background-color 0.2s;
+        }
+        .data-table tbody tr:hover {
+            background-color: #F3F4F6;
+        }
+        
+        /* Badge styling */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            line-height: 1.25;
+        }
+        .badge-success { background-color: #ECFDF5; color: #059669; }
+        .badge-warning { background-color: #FEF3C7; color: #D97706; }
+        .badge-danger { background-color: #FEE2E2; color: #DC2626; }
+        
+        /* Sidebar active state */
+        .sidebar-item.active {
+            background-color: #EEF2FF;
+            color: #4F46E5;
+            font-weight: 600;
+        }
+        
+        /* Dark mode styles */
+        .dark {
+            background-color: #111827;
+            color: #F9FAFB;
+        }
+        .dark .bg-white { background-color: #1F2937 !important; }
+        .dark .bg-gray-50 { background-color: #111827 !important; }
+        .dark .bg-neutral-50 { background-color: #111827 !important; }
+        .dark .text-gray-900 { color: #F9FAFB !important; }
+        .dark .text-gray-800 { color: #F3F4F6 !important; }
+        .dark .text-gray-700 { color: #D1D5DB !important; }
+        .dark .text-gray-600 { color: #D1D5DB !important; }
+        .dark .text-gray-500 { color: #9CA3AF !important; }
+        .dark .border-gray-200 { border-color: #374151 !important; }
+        .dark .shadow-card { box-shadow: 0 0 20px rgba(0, 0, 0, 0.2) !important; }
+        .dark .data-table th {
+            background-color: #374151;
+            color: #E5E7EB;
+            border-bottom: 1px solid #4B5563;
+        }
+        .dark .data-table td { border-bottom: 1px solid #374151; }
+        .dark .data-table tbody tr:hover { background-color: #374151; }
+        .dark .sidebar-item.active {
+            background-color: #374151;
+            color: #818CF8;
+        }
+        .dark .toggle-slider { background-color: #4B5563; }
+        .dark input:checked + .toggle-slider { background-color: #4F46E5; }
+        .dark .badge-success { background-color: #064E3B; color: #A7F3D0; }
+        .dark .badge-warning { background-color: #78350F; color: #FDE68A; }
+        .dark .badge-danger { background-color: #991B1B; color: #FECACA; }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="flex h-screen overflow-hidden" id="app">
+        <!-- Sidebar -->
+        <aside class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 border-r border-gray-200 bg-white">
+                <div class="flex items-center justify-center h-16 px-4 border-b border-gray-200 flex-shrink-0">
+                    <h2 class="text-xl font-bold text-primary">SalesMetrics</h2>
+                </div>
+                <div class="flex flex-col flex-grow pt-5 pb-4 overflow-y-auto">
+                    <nav class="flex-1 px-2 space-y-1">
+                        <a href="#" class="sidebar-item active flex items-center px-4 py-3 text-sm font-medium rounded-md">
+                            <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                            Dashboard
+                        </a>
+                        <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                            <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                            Sales Performance
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Top navigation -->
+            <header class="bg-white shadow-sm z-10">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between h-16">
+                        <div class="flex items-center md:hidden">
+                            <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none" id="mobile-menu-button">
+                                <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                            </button>
+                        </div>
+                        <div class="flex-1 flex items-center justify-center px-2 md:justify-start">
+                            <h1 class="text-xl font-semibold text-gray-900">Dashboard</h1>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="mr-4">
+                                <select class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-primary focus:border-primary sm:text-sm rounded-md" id="time-period-selector">
+                                    <option value="7">Last 7 Days</option>
+                                    <option value="30" selected>Last 30 Days</option>
+                                    <option value="90">Last Quarter</option>
+                                    <option value="365">Last Year</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center mr-4">
+                                <label class="toggle-switch">
+                                    <input type="checkbox" id="dark-mode-toggle">
+                                    <span class="toggle-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Mobile sidebar -->
+            <div class="md:hidden fixed inset-0 z-40 bg-gray-600 bg-opacity-75 hidden" id="mobile-sidebar-overlay"></div>
+            <div id="mobile-sidebar" class="md:hidden fixed inset-y-0 left-0 z-50 w-64 bg-white transform -translate-x-full transition-transform duration-300 ease-in-out">
+                <div class="h-full flex flex-col">
+                    <div class="flex items-center justify-between h-16 px-4 border-b border-gray-200">
+                        <h2 class="text-xl font-bold text-primary">SalesMetrics</h2>
+                        <button type="button" class="p-2 rounded-md text-gray-400" id="close-mobile-menu">
+                            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                        </button>
+                    </div>
+                    <div class="flex-1 overflow-y-auto">
+                        <nav class="px-2 py-4 space-y-1">
+                             <a href="#" class="sidebar-item active flex items-center px-4 py-3 text-sm font-medium rounded-md">
+                                <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>
+                                Dashboard
+                            </a>
+                            <a href="#" class="sidebar-item flex items-center px-4 py-3 text-sm font-medium text-gray-600 rounded-md hover:bg-gray-50 hover:text-gray-900">
+                                <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>
+                                Sales Performance
+                            </a>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main content area -->
+            <main class="flex-1 overflow-y-auto bg-neutral-50 p-4 sm:p-6 lg:p-8">
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                    <div id="totalRevenueCard" class="dashboard-card bg-white overflow-hidden rounded-lg shadow-card p-5"></div>
+                    <div id="totalOrdersCard" class="dashboard-card bg-white overflow-hidden rounded-lg shadow-card p-5"></div>
+                    <div id="avgOrderValueCard" class="dashboard-card bg-white overflow-hidden rounded-lg shadow-card p-5"></div>
+                    <div id="conversionRateCard" class="dashboard-card bg-white overflow-hidden rounded-lg shadow-card p-5"></div>
+                </div>
+                
+                <!-- Revenue Trends Chart -->
+                <div class="mt-8">
+                    <div class="bg-white rounded-lg shadow-card p-6">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Revenue Trends</h2>
+                        <div class="h-80"><canvas id="revenueChart"></canvas></div>
+                    </div>
+                </div>
+                
+                <!-- Sales by Channel & Top Products -->
+                <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white rounded-lg shadow-card p-6">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Sales by Channel</h2>
+                        <div class="h-64 flex justify-center items-center"><canvas id="channelChart"></canvas></div>
+                    </div>
+                    <div class="bg-white rounded-lg shadow-card p-6">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Top Selling Products</h2>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full data-table">
+                                <thead><tr><th>Product</th><th>Units</th><th>Revenue</th></tr></thead>
+                                <tbody id="topProductsTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sales Growth & Regional Performance -->
+                <div class="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-lg shadow-card p-6 lg:col-span-2">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Sales Growth (Quarterly)</h2>
+                        <div class="h-80"><canvas id="growthChart"></canvas></div>
+                    </div>
+                    <div id="regionalPerformance" class="bg-white rounded-lg shadow-card p-6">
+                        <h2 class="text-lg font-medium text-gray-900 mb-4">Regional Performance</h2>
+                        <div id="regionalPerformanceBody" class="space-y-4"></div>
+                    </div>
+                </div>
+
+                <!-- Sales Team Performance -->
+                <div class="mt-8">
+                    <div class="bg-white rounded-lg shadow-card p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-lg font-medium text-gray-900">Sales Team Performance</h2>
+                            <div class="flex items-center space-x-2">
+                                <span class="text-sm text-gray-500">Sort by:</span>
+                                <select id="salesTeamSort" class="text-sm border-gray-300 rounded-md shadow-sm focus:border-primary focus:ring focus:ring-primary-light focus:ring-opacity-50">
+                                    <option value="revenue">Revenue</option>
+                                    <option value="deals">Deals Closed</option>
+                                    <option value="conversion">Conversion Rate</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full data-table">
+                                <thead><tr><th>Sales Rep</th><th>Deals Closed</th><th>Revenue</th><th>Conversion</th><th>Avg. Deal Size</th><th>Status</th></tr></thead>
+                                <tbody id="salesTeamTableBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // --- DOM Elements ---
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const timePeriodSelector = document.getElementById('time-period-selector');
+        const salesTeamSort = document.getElementById('salesTeamSort');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const closeMobileMenuButton = document.getElementById('close-mobile-menu');
+        const mobileSidebar = document.getElementById('mobile-sidebar');
+        const mobileSidebarOverlay = document.getElementById('mobile-sidebar-overlay');
+        
+        // --- Chart instances ---
+        let revenueChartInstance, channelChartInstance, growthChartInstance;
+        let salesDataCache = null;
+
+        // --- State ---
+        let currentTheme = localStorage.getItem('theme') || 'light';
+
+        // --- Helper Functions ---
+        const formatCurrency = (value) => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(value);
+        const formatNumber = (value) => new Intl.NumberFormat('en-US').format(value);
+        const formatPercentage = (value, decimals = 2) => `${(value * 100).toFixed(decimals)}%`;
+
+        // --- Data Generation ---
+        const generateSalesData = (days) => {
+            const data = {
+                kpis: {
+                    revenue: { current: 0, previous: 0 },
+                    orders: { current: 0, previous: 0 },
+                    avgOrderValue: { current: 0, previous: 0 },
+                    conversion: { current: 0, previous: 0 },
+                },
+                revenueTrend: [],
+                channels: { 'Online Store': 0, 'Marketplace': 0, 'Retail': 0, 'Direct': 0 },
+                topProducts: [],
+                quarterlyGrowth: { labels: [], revenue: [], orders: [] },
+                regional: { 'North America': 0, 'Europe': 0, 'Asia Pacific': 0, 'Latin America': 0 },
+                salesTeam: [],
+            };
+
+            const productTemplates = [ { name: 'Premium Laptop', price: 1200 }, { name: 'Smartphone Pro', price: 900 }, { name: 'Wireless Earbuds', price: 150 }, { name: 'Smart Watch', price: 300 }, { name: 'Home Hub', price: 250 }];
+            const salesReps = [ { name: 'John Doe', region: 'North America' }, { name: 'Alice Smith', region: 'Europe' }, { name: 'Bob Johnson', region: 'Asia Pacific' }, { name: 'Charlie Brown', region: 'Latin America' }, { name: 'Diana Prince', region: 'North America' }];
+            
+            // Initialize data structures
+            const productSales = productTemplates.map(p => ({ ...p, units: 0, revenue: 0 }));
+            data.salesTeam = salesReps.map(r => ({ ...r, revenue: 0, deals: 0, leads: 0 }));
+
+            // Generate data for current and previous period
+            for (let period of ['current', 'previous']) {
+                let totalVisitors = 0;
+                const periodDays = (period === 'previous') ? days * 2 : days;
+
+                for (let i = (period === 'previous' ? days : 0); i < periodDays; i++) {
+                    const dailyVisitors = 5000 + Math.random() * 2000;
+                    const dailyOrders = Math.floor(dailyVisitors * (0.02 + Math.random() * 0.015));
+                    let dailyRevenue = 0;
+
+                    for (let j = 0; j < dailyOrders; j++) {
+                        const product = productTemplates[Math.floor(Math.random() * productTemplates.length)];
+                        dailyRevenue += product.price;
+
+                        if (period === 'current') {
+                            const rep = data.salesTeam[Math.floor(Math.random() * data.salesTeam.length)];
+                            rep.revenue += product.price;
+                            rep.deals += 1;
+                            rep.leads += Math.floor(1 + Math.random() * 3); // Each deal comes from a few leads
+
+                            const pSale = productSales.find(ps => ps.name === product.name);
+                            pSale.units += 1;
+                            pSale.revenue += product.price;
+
+                            const channelRoll = Math.random();
+                            if (channelRoll < 0.48) { data.channels['Online Store'] += product.price; data.regional['North America'] += product.price * 0.5; data.regional['Europe'] += product.price * 0.5; }
+                            else if (channelRoll < 0.75) { data.channels['Marketplace'] += product.price; data.regional['Asia Pacific'] += product.price; }
+                            else if (channelRoll < 0.90) { data.channels['Retail'] += product.price; data.regional['Europe'] += product.price; }
+                            else { data.channels['Direct'] += product.price; data.regional['Latin America'] += product.price; }
+                        }
+                    }
+                    
+                    data.kpis.revenue[period] += dailyRevenue;
+                    data.kpis.orders[period] += dailyOrders;
+                    totalVisitors += dailyVisitors;
+
+                    if (period === 'current') {
+                        const date = new Date();
+                        date.setDate(date.getDate() - (days - 1 - i));
+                        data.revenueTrend.push({ date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }), revenue: dailyRevenue });
+                    }
+                }
+                data.kpis.conversion[period] = data.kpis.orders[period] / totalVisitors;
+            }
+            
+            data.kpis.avgOrderValue.current = data.kpis.revenue.current / data.kpis.orders.current;
+            data.kpis.avgOrderValue.previous = data.kpis.revenue.previous / data.kpis.orders.previous;
+            data.topProducts = productSales.sort((a, b) => b.revenue - a.revenue);
+            data.salesTeam.forEach(r => r.conversion = r.deals / r.leads);
+
+            // Generate quarterly data for the last year
+            for (let q = 4; q > 0; q--) {
+                const quarterRevenue = (Math.random() * 500000 + 1000000) * (1 - (q * 0.1));
+                const quarterOrders = (Math.random() * 2000 + 8000) * (1 - (q * 0.1));
+                data.quarterlyGrowth.labels.unshift(`Q${5-q} ${new Date().getFullYear() - 1}`);
+                data.quarterlyGrowth.revenue.unshift(quarterRevenue);
+                data.quarterlyGrowth.orders.unshift(quarterOrders);
+            }
+
+            return data;
+        };
+        
+        // --- UI Update Functions ---
+        const createKpiCard = (id, title, value, growth, iconSvg) => {
+            const card = document.getElementById(id);
+            const isPositive = growth >= 0;
+            const growthColor = isPositive ? 'text-green-600' : 'text-red-600';
+            const growthIcon = isPositive 
+                ? `<svg class="self-center flex-shrink-0 h-4 w-4 text-green-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>`
+                : `<svg class="self-center flex-shrink-0 h-4 w-4 text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>`;
+
+            card.innerHTML = `
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 rounded-md p-3 bg-primary-light">${iconSvg}</div>
+                    <div class="ml-5 w-0 flex-1">
+                        <dl>
+                            <dt class="text-sm font-medium text-gray-500 truncate">${title}</dt>
+                            <dd class="flex items-baseline">
+                                <div class="text-2xl font-semibold text-gray-900">${value}</div>
+                                <div class="ml-2 flex items-baseline text-sm font-semibold ${growthColor}">${growthIcon}<span class="ml-1">${formatPercentage(growth, 1)}</span></div>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>`;
+        };
+        
+        const updateKpiCards = (kpis) => {
+            createKpiCard('totalRevenueCard', 'Total Revenue', formatCurrency(kpis.revenue.current), (kpis.revenue.current - kpis.revenue.previous) / kpis.revenue.previous, `<svg class="h-6 w-6 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`);
+            createKpiCard('totalOrdersCard', 'Total Orders', formatNumber(kpis.orders.current), (kpis.orders.current - kpis.orders.previous) / kpis.orders.previous, `<svg class="h-6 w-6 text-secondary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>`);
+            createKpiCard('avgOrderValueCard', 'Avg. Order Value', formatCurrency(kpis.avgOrderValue.current), (kpis.avgOrderValue.current - kpis.avgOrderValue.previous) / kpis.avgOrderValue.previous, `<svg class="h-6 w-6 text-tertiary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" /></svg>`);
+            createKpiCard('conversionRateCard', 'Conversion Rate', formatPercentage(kpis.conversion.current), (kpis.conversion.current - kpis.conversion.previous) / kpis.conversion.previous, `<svg class="h-6 w-6 text-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>`);
+        };
+
+        const updateTopProductsTable = (products) => {
+            const tableBody = document.getElementById('topProductsTableBody');
+            tableBody.innerHTML = '';
+            products.slice(0, 5).forEach(p => {
+                tableBody.innerHTML += `<tr class="text-sm text-gray-900"><td class="font-medium">${p.name}</td><td>${formatNumber(p.units)}</td><td>${formatCurrency(p.revenue)}</td></tr>`;
+            });
+        };
+
+        const updateRegionalPerformance = (regionalData, totalRevenue) => {
+            const body = document.getElementById('regionalPerformanceBody');
+            body.innerHTML = '';
+            const colors = { 'North America': 'primary', 'Europe': 'secondary', 'Asia Pacific': 'tertiary', 'Latin America': 'accent' };
+            Object.entries(regionalData).forEach(([region, revenue]) => {
+                const percentage = totalRevenue > 0 ? (revenue / totalRevenue) * 100 : 0;
+                body.innerHTML += `
+                    <div>
+                        <div class="flex justify-between items-center mb-1">
+                            <div class="flex items-center">
+                                <span class="w-3 h-3 rounded-full bg-${colors[region]} mr-2"></span>
+                                <span class="text-sm font-medium text-gray-700">${region}</span>
+                            </div>
+                            <span class="text-sm font-semibold text-gray-900">${formatCurrency(revenue)}</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2"><div class="bg-${colors[region]} h-2 rounded-full animate-progress" style="width: ${percentage}%"></div></div>
+                    </div>`;
+            });
+        };
+        
+        const updateSalesTeamTable = (salesTeam, sortBy = 'revenue') => {
+            const tableBody = document.getElementById('salesTeamTableBody');
+            tableBody.innerHTML = '';
+            const sortedTeam = [...salesTeam].sort((a, b) => {
+                if (sortBy === 'deals') return b.deals - a.deals;
+                if (sortBy === 'conversion') return b.conversion - a.conversion;
+                return b.revenue - a.revenue;
+            });
+
+            sortedTeam.forEach(rep => {
+                const avgDealSize = rep.deals > 0 ? rep.revenue / rep.deals : 0;
+                const status = rep.revenue > 20000 ? 'Above Target' : 'On Target';
+                const statusClass = rep.revenue > 20000 ? 'badge-success' : 'badge-warning';
+                tableBody.innerHTML += `
+                    <tr class="text-sm text-gray-900">
+                        <td><div class="font-medium">${rep.name}</div><div class="text-xs text-gray-500">${rep.region}</div></td>
+                        <td>${formatNumber(rep.deals)}</td>
+                        <td>${formatCurrency(rep.revenue)}</td>
+                        <td>${formatPercentage(rep.conversion)}</td>
+                        <td>${formatCurrency(avgDealSize)}</td>
+                        <td><span class="badge ${statusClass}">${status}</span></td>
+                    </tr>`;
+            });
+        };
+
+        // --- Chart Rendering ---
+        const renderChart = (ctx, type, data, options, instance) => {
+            if (instance) instance.destroy();
+            return new Chart(ctx, { type, data, options });
+        };
+
+        const getChartOptions = (isDark) => ({
+            gridColor: isDark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+            labelColor: isDark ? '#D1D5DB' : '#6B7280',
+            tooltipBg: isDark ? '#1F2937' : '#374151',
+            tooltipColor: '#F9FAFB',
+        });
+
+        const renderAllCharts = (data) => {
+            const isDark = document.documentElement.classList.contains('dark');
+            const opts = getChartOptions(isDark);
+            
+            // Revenue Chart
+            revenueChartInstance = renderChart(document.getElementById('revenueChart').getContext('2d'), 'line', {
+                labels: data.revenueTrend.map(d => d.date),
+                datasets: [{ label: 'Revenue', data: data.revenueTrend.map(d => d.revenue), borderColor: '#4F46E5', backgroundColor: 'rgba(79, 70, 229, 0.1)', fill: true, tension: 0.4 }]
+            }, { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: opts.gridColor }, ticks: { color: opts.labelColor } }, x: { grid: { display: false }, ticks: { color: opts.labelColor } } }, plugins: { legend: { display: false } } }, revenueChartInstance);
+
+            // Channel Chart
+            channelChartInstance = renderChart(document.getElementById('channelChart').getContext('2d'), 'doughnut', {
+                labels: Object.keys(data.channels),
+                datasets: [{ data: Object.values(data.channels), backgroundColor: ['#4F46E5', '#10B981', '#F59E0B', '#EC4899'], borderColor: isDark ? '#1F2937' : '#fff', hoverOffset: 4 }]
+            }, { responsive: true, maintainAspectRatio: false, cutout: '70%', plugins: { legend: { position: 'bottom', labels: { color: opts.labelColor } } } }, channelChartInstance);
+
+            // Growth Chart
+            growthChartInstance = renderChart(document.getElementById('growthChart').getContext('2d'), 'bar', {
+                labels: data.quarterlyGrowth.labels,
+                datasets: [
+                    { label: 'Revenue', data: data.quarterlyGrowth.revenue, backgroundColor: '#4F46E5', barThickness: 15 },
+                    { label: 'Orders', data: data.quarterlyGrowth.orders, backgroundColor: '#A5B4FC', barThickness: 15 }
+                ]
+            }, { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: opts.gridColor }, ticks: { color: opts.labelColor } }, x: { grid: { display: false }, ticks: { color: opts.labelColor } } }, plugins: { legend: { position: 'top', labels: { color: opts.labelColor } } } }, growthChartInstance);
+        };
+        
+        // --- Main Dashboard Update Function ---
+        const updateDashboard = () => {
+            const days = parseInt(timePeriodSelector.value);
+            salesDataCache = generateSalesData(days);
+            
+            updateKpiCards(salesDataCache.kpis);
+            updateTopProductsTable(salesDataCache.topProducts);
+            updateRegionalPerformance(salesDataCache.regional, salesDataCache.kpis.revenue.current);
+            updateSalesTeamTable(salesDataCache.salesTeam, salesTeamSort.value);
+            renderAllCharts(salesDataCache);
+        };
+
+        // --- Theme Management ---
+        const applyTheme = (theme) => {
+            document.documentElement.classList.toggle('dark', theme === 'dark');
+            darkModeToggle.checked = theme === 'dark';
+            if (salesDataCache) {
+                renderAllCharts(salesDataCache);
+            } else {
+                updateDashboard();
+            }
+        };
+
+        // --- Event Listeners ---
+        darkModeToggle.addEventListener('change', () => {
+            currentTheme = darkModeToggle.checked ? 'dark' : 'light';
+            localStorage.setItem('theme', currentTheme);
+            applyTheme(currentTheme);
+        });
+        timePeriodSelector.addEventListener('change', updateDashboard);
+        salesTeamSort.addEventListener('change', () => {
+            if (salesDataCache) {
+                updateSalesTeamTable(salesDataCache.salesTeam, salesTeamSort.value);
+            }
+        });
+        mobileMenuButton.addEventListener('click', () => {
+            mobileSidebar.classList.remove('-translate-x-full');
+            mobileSidebarOverlay.classList.remove('hidden');
+        });
+        const closeMenu = () => {
+            mobileSidebar.classList.add('-translate-x-full');
+            mobileSidebarOverlay.classList.add('hidden');
+        };
+        closeMobileMenuButton.addEventListener('click', closeMenu);
+        mobileSidebarOverlay.addEventListener('click', closeMenu);
+
+        // --- Initial Load ---
+        applyTheme(currentTheme);
+    });
+    </script>
+</body>
+</html>

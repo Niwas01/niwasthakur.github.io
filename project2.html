@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 2: Customer Segmentation Analysis</title>
+    <!-- Link to Tailwind CSS CDN for utility-first styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tailwind CSS custom configuration for new colors -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'custom-accent-blue': '#9bb1ff', /* Original main accent color (kept for reference) */
+                        'palette-blue-50': '#E3F2FD',    /* From original palette */
+                        'palette-blue-100': '#BBDEFB',   /* Used for the About section background */
+                        'palette-blue-500': '#2196F3',
+                        'palette-blue-600': '#1E88E5',
+                        'palette-blue-700': '#1976D2',
+                        'palette-blue-800': '#1565C0',
+                        'palette-blue-900': '#0D47A1',
+                        
+                        'custom-accent-green': '#66BB6A', /* New main accent color for this page */
+                        'palette-green-50': '#E8F5E9',    /* Lightest green */
+                        'palette-green-100': '#C8E6C9',   /* Lighter green */
+                        'palette-green-500': '#4CAF50',
+                        'palette-green-600': '#43A047',
+                        'palette-green-700': '#388E3C',
+                        'palette-green-800': '#2E7D32',
+                        'palette-green-900': '#1B5E20',   /* Darkest green */
+
+                        'dark-navy': '#1A2C42', /* Global darker blue for depth */
+                        'light-gray-bg': '#F9FAFB', /* Global lighter background for sections */
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Link to Google Fonts for 'Inter' font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- AOS Library CSS for animations -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+            background-color: #f8fafc; /* Light gray background */
+        }
+        /* Gradient overlay for hero image for better text readability */
+        .hero-gradient-overlay {
+            /* Changed gradient colors to match the new green palette */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.7) 100%);
+        }
+
+        /* Custom animation for section entry */
+        @keyframes fadeInSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fadeInSlideUp {
+            animation: fadeInSlideUp 0.8s ease-out forwards;
+        }
+
+        /* Specific delay classes for staggering animations */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+    </style>
+</head>
+<body class="bg-light-gray-bg text-gray-800 antialiased">
+
+    <!-- Project Hero Section - More dynamic and visually striking -->
+    <section class="relative bg-gradient-to-r from-palette-green-700 to-palette-green-500 text-white py-24 sm:py-36 px-4 sm:px-6 lg:px-8 overflow-hidden rounded-b-[40px] shadow-2xl">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1579621970795-87fdb2f976f5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80" 
+                 alt="Customer data background" class="w-full h-full object-cover opacity-60">
+            <div class="absolute inset-0 hero-gradient-overlay"></div>
+        </div>
+        <div class="max-w-4xl mx-auto text-center relative z-10">
+            <span class="text-palette-green-100 text-base sm:text-lg font-semibold uppercase tracking-widest mb-4 block" data-aos="fade-down" data-aos-duration="800">Targeted Strategies</span>
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">Customer Segmentation Analysis</h1>
+            <p class="text-palette-green-50 text-lg sm:text-xl leading-relaxed max-w-2xl mx-auto" data-aos="fade-up" data-aos-duration="800" data-aos-delay="200">
+                In-depth analysis to identify distinct customer groups, enabling highly personalized marketing and product strategies.
+            </p>
+            <div class="mt-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">
+                <!-- Discover More button using green accent -->
+                <a href="#overview" class="inline-flex items-center px-8 py-3 bg-white text-palette-green-700 text-lg font-bold rounded-full shadow-xl hover:bg-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
+                    Discover More
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Overview & Details Section -->
+    <section id="overview" class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-white max-w-7xl mx-auto rounded-3xl shadow-xl -mt-16 relative z-10 mb-12" data-aos="fade-up" data-aos-duration="1000">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left Column: Overview Text -->
+            <div class="order-2 lg:order-1" data-aos="fade-right" data-aos-duration="1000" data-aos-delay="100">
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-dark-navy mb-6">Business Problem</h2>
+                <p class="text-gray-700 text-lg leading-relaxed mb-6">
+                    Many businesses treat all customers uniformly, leading to inefficient marketing spend and missed opportunities for personalization. A lack of understanding of distinct customer segments results in generic campaigns that fail to resonate with specific audience needs, hindering customer retention and acquisition.
+                </p>
+                <p class="text-gray-700 text-base leading-relaxed mb-8">
+                    This project aimed to solve this by identifying actionable customer segments. By leveraging robust data analysis, we sought to provide clear profiles of different customer groups, enabling marketing teams to develop tailored strategies, optimize product offerings, and improve customer satisfaction and lifetime value.
+                </p>
+
+                <h3 class="text-2xl font-bold text-palette-green-900 mb-4">Core Objectives</h3>
+                <ul class="list-none space-y-3 text-gray-700 text-base mb-8">
+                    <li class="flex items-start group hover:text-palette-green-700 transition-colors duration-200">
+                        <div class="flex-shrink-0 text-palette-green-600 mr-3 transform group-hover:translate-x-1 transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        Identify distinct customer segments based on behavioral and demographic data.
+                    </li>
+                    <li class="flex items-start group hover:text-palette-green-700 transition-colors duration-200">
+                        <div class="flex-shrink-0 text-palette-green-600 mr-3 transform group-hover:translate-x-1 transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        Develop detailed profiles for each identified segment.
+                    </li>
+                    <li class="flex items-start group hover:text-palette-green-700 transition-colors duration-200">
+                        <div class="flex-shrink-0 text-palette-green-600 mr-3 transform group-hover:translate-x-1 transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        Provide actionable recommendations for targeted marketing.
+                    </li>
+                    <li class="flex items-start group hover:text-palette-green-700 transition-colors duration-200">
+                        <div class="flex-shrink-0 text-palette-green-600 mr-3 transform group-hover:translate-x-1 transition-transform duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </div>
+                        Improve customer engagement and retention rates.
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Right Column: Project Image -->
+            <div class="order-1 lg:order-2" data-aos="fade-left" data-aos-duration="1000" data-aos-delay="200">
+                <img src="https://images.unsplash.com/photo-1521737711867-ee16bf671190?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                     alt="Customer Segmentation Visual" 
+                     class="rounded-2xl shadow-2xl w-full h-auto object-cover transform transition-transform duration-500 hover:scale-105 hover:shadow-3xl">
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Insights & Methodologies Section -->
+    <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-palette-green-50 max-w-7xl mx-auto rounded-3xl shadow-xl my-12" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="200">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Key Achievements -->
+            <div data-aos="fade-right" data-aos-duration="1000" data-aos-delay="300">
+                <h3 class="text-3xl font-extrabold text-dark-navy mb-8">Impactful Achievements</h3>
+                <div class="space-y-8">
+                    <div class="flex items-start p-4 bg-white rounded-xl shadow-md border border-palette-green-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex-shrink-0 p-3 bg-palette-green-100 rounded-full mr-4 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-palette-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-palette-green-900 mb-1">Enhanced Marketing ROI</h4>
+                            <p class="text-gray-700 text-base">Increased marketing campaign effectiveness by <span class="font-bold text-palette-green-700">25%</span> through targeted customer segmentation.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 bg-white rounded-xl shadow-md border border-palette-green-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex-shrink-0 p-3 bg-palette-green-100 rounded-full mr-4 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-palette-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 6l3 1m0 0l-3 1m3-1V4m0 4h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2zm5-11h4" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-palette-green-900 mb-1">Improved Customer Engagement</h4>
+                            <p class="text-gray-700 text-base">Boosted customer engagement metrics by <span class="font-bold text-palette-green-700">18%</span> due to personalized content delivery.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-4 bg-white rounded-xl shadow-md border border-palette-green-100 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+                        <div class="flex-shrink-0 p-3 bg-palette-green-100 rounded-full mr-4 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-palette-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8V9m0 3v1m0 3v1m0 1H9m-6 0h.01M21 12h.01M3 12H2m8-6H9m-6 0h.01M18 4h.01M3 4h.01M9 18h.01" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="text-xl font-semibold text-palette-green-900 mb-1">Optimized Product Strategy</h4>
+                            <p class="text-gray-700 text-base">Informed product development and feature prioritization based on distinct segment preferences.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Methodologies -->
+            <div data-aos="fade-left" data-aos-duration="1000" data-aos-delay="400">
+                <h3 class="text-3xl font-extrabold text-dark-navy mb-8">Strategic Approach</h3>
+                <div class="bg-white p-8 rounded-xl shadow-lg border border-palette-green-100 space-y-6">
+                    <div class="flex items-start" data-aos="fade-up" data-aos-duration="800" data-aos-delay="50">
+                        <span class="flex-shrink-0 text-palette-green-700 font-bold text-3xl mr-4">01.</span>
+                        <div>
+                            <h4 class="text-xl font-semibold text-palette-green-900 mb-1">Data Collection & Preprocessing</h4>
+                            <p class="text-gray-700 text-base">Gathered comprehensive customer data including purchase history, browsing behavior, demographics, and engagement metrics. Performed extensive cleaning and normalization.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start" data-aos="fade-up" data-aos-duration="800" data-aos-delay="150">
+                        <span class="flex-shrink-0 text-palette-green-700 font-bold text-3xl mr-4">02.</span>
+                        <div>
+                            <h4 class="text-xl font-semibold text-palette-green-900 mb-1">Feature Engineering & Model Selection</h4>
+                            <p class="text-gray-700 text-base">Engineered relevant features from raw data. Explored and selected appropriate clustering algorithms (e.g., K-Means, DBSCAN) using Python for optimal segment identification.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start" data-aos="fade-up" data-aos-duration="800" data-aos-delay="250">
+                        <span class="flex-shrink-0 text-palette-green-700 font-bold text-3xl mr-4">03.</span>
+                        <div>
+                            <h4 class="text-xl font-semibold text-palette-green-900 mb-1">Segment Profiling & Validation</h4>
+                            <p class="text-gray-700 text-base">Analyzed and profiled each segment, creating descriptive personas. Validated segment distinctiveness and actionability through statistical tests and business stakeholder reviews.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start" data-aos="fade-up" data-aos-duration="800" data-aos-delay="350">
+                        <span class="flex-shrink-0 text-palette-green-700 font-bold text-3xl mr-4">04.</span>
+                        <div>
+                            <h4 class="text-xl font-semibold text-palette-green-900 mb-1">Strategy Recommendations & Implementation Support</h4>
+                            <p class="text-gray-700 text-base">Provided detailed recommendations for tailored marketing campaigns, product development, and customer service initiatives. Supported implementation and monitored segment performance.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Used Section -->
+    <section class="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-light-gray-bg rounded-3xl max-w-7xl mx-auto my-12 shadow-xl" data-aos="fade-up" data-aos-duration="1000" data-aos-delay="300">
+        <h3 class="text-3xl font-extrabold text-dark-navy mb-12 text-center">Technologies & Tools Utilized</h3>
+        <div class="flex flex-wrap justify-center gap-8">
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-palette-green-100 text-palette-green-800 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="50">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c3/Python-logo-notext.svg" alt="Python Logo" class="w-14 h-14 mb-2 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                Python
+            </span>
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-palette-green-100 text-palette-green-800 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="150">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ed/Pandas_logo.svg" alt="Pandas Logo" class="w-14 h-14 mb-2 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                Pandas
+            </span>
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-palette-green-100 text-palette-green-800 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="250">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Scikit_learn_logo_small.svg/800px-Scikit_learn_logo_small.svg.png" alt="Scikit-learn Logo" class="w-14 h-14 mb-2 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                Scikit-learn
+            </span>
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-palette-green-100 text-palette-green-800 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="350">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Google_Analytics_logo.svg/800px-Google_Analytics_logo.svg.png" alt="Google Analytics Logo" class="w-14 h-14 mb-2 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300">
+                Google Analytics
+            </span>
+            <span class="inline-flex flex-col items-center p-4 rounded-xl text-lg font-medium bg-palette-green-100 text-palette-green-800 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 group" data-aos="zoom-in" data-aos-duration="600" data-aos-delay="450">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 mb-2 text-palette-green-700 group-hover:text-palette-green-900 transition-colors duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M3 19l6 3V6L3 3v13c0 1.657 2.238 3 5 3s5-1.343 5-3V5c0-1.657-2.238-3-5-3S3 3.343 3 5v14z" />
+                </svg>
+                Market Research
+            </span>
+        </div>
+    </section>
+
+    <!-- Call to Action / Explore More Section -->
+    <section class="py-16 px-4 sm:px-6 lg:px-8 bg-dark-navy text-white text-center rounded-t-[40px] shadow-2xl">
+        <h2 class="text-3xl sm:text-4xl font-extrabold mb-6" data-aos="fade-up" data-aos-duration="800">Ready to Deep Dive into Data?</h2>
+        <p class="text-palette-green-100 text-lg max-w-3xl mx-auto mb-10" data-aos="fade-up" data-aos-duration="800" data-aos-delay="100">
+            Explore more of my projects where I leverage business analysis and data science to solve complex challenges and drive tangible results.
+        </p>
+        <!-- View All Projects button using green accent -->
+        <a href="index.html#projects" class="inline-flex items-center justify-center px-8 py-3 border border-palette-green-500 bg-palette-green-700 text-lg font-bold rounded-full shadow-lg hover:bg-palette-green-800 hover:border-palette-green-600 transition-all duration-300 transform hover:-translate-y-1" data-aos="zoom-in" data-aos-duration="800" data-aos-delay="200">
+            View All Projects
+            <svg xmlns="http://www.w3.org/2000/svg" class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-dark-navy text-white pt-10 pb-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto text-center">
+            <p class="text-palette-blue-400">&copy; 2024 Niwas Kumar. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollTopBtn" class="fixed bottom-6 right-6 bg-palette-green-700 text-white p-3 rounded-full shadow-lg hover:bg-palette-green-800 transition-opacity duration-300 z-50 opacity-0 transform scale-0 hover:scale-110">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+        </svg>
+    </button>
+
+    <!-- AOS Library JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            once: true, // Whether animation should happen only once - while scrolling down
+            offset: 80, // Offset (in px) from the top of the screen to trigger animations, adjusted for better timing
+            duration: 800, // Values from 0 to 3000, with step 50ms
+            easing: 'ease-out-cubic', // Easing function for animations
+            delay: 50 // Delay (in ms) before initialize AOS
+        });
+
+        // Scroll to Top Button Logic
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('opacity-100', 'scale-100');
+                scrollTopBtn.classList.remove('opacity-0', 'scale-0');
+            } else {
+                scrollTopBtn.classList.remove('opacity-100', 'scale-100');
+                scrollTopBtn.classList.add('opacity-0', 'scale-0');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+    </script>
+</body>
+</html>
