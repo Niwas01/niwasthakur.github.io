@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Niwas Kumar - Business Analyst Portfolio</title>
     <meta name="description" content="Niwas Kumar's professional business analyst portfolio showcasing skills, projects, and certifications in data analysis, process optimization, and stakeholder management.">
     
@@ -30,7 +30,27 @@
     </script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; display: flex; flex-direction: column; min-height: 100vh; background-color: #3D52A0; color: #EDE8F5; }
+        /* Prevent layout shift on mobile */
+        html { 
+            overflow-x: hidden; 
+            width: 100%; 
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            scroll-behavior: smooth; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+            background-color: #3D52A0; 
+            color: #EDE8F5; 
+            overflow-x: hidden;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
         .navbar-shrink { padding-top: 0.5rem; padding-bottom: 0.5rem; background-color: rgba(61, 82, 160, 0.7); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
         .typing-cursor { display: inline-block; width: 3px; height: 1.2em; background-color: #8697C4; margin-left: 2px; vertical-align: middle; animation: blink-caret 0.75s step-end infinite; }
         @keyframes blink-caret { from, to { background-color: transparent } 50% { background-color: inherit } }
@@ -150,6 +170,9 @@
         
         /* Mobile Optimizations */
         @media (max-width: 768px) {
+            /* Prevent layout shift */
+            * { box-sizing: border-box; }
+            
             /* Navigation */
             #main-nav { padding: 0.75rem 1rem; }
             #main-nav-links { display: none; }
@@ -254,6 +277,39 @@
         
         /* Mobile-specific improvements */
         @media (max-width: 768px) {
+            /* Prevent layout shift and ensure proper sizing */
+            * { 
+                box-sizing: border-box; 
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            /* Container fixes */
+            .max-w-7xl { max-width: 100%; padding-left: 1rem; padding-right: 1rem; }
+            
+            /* Navigation fixes */
+            #main-nav { 
+                width: 100%; 
+                left: 0; 
+                right: 0; 
+                padding: 0.75rem 1rem; 
+            }
+            #main-nav .max-w-7xl { 
+                max-width: 100%; 
+                padding-left: 1rem; 
+                padding-right: 1rem; 
+            }
+            #main-nav .flex { 
+                width: 100%; 
+                justify-content: space-between; 
+                align-items: center; 
+            }
+            #hire-me-btn { 
+                position: relative; 
+                right: auto; 
+                transform: none; 
+                margin-left: auto; 
+            }
+            
             /* Improve touch targets */
             button, a { min-height: 44px; min-width: 44px; }
             
@@ -268,8 +324,22 @@
             /* Better modal handling */
             .modal-content { border-radius: 0; }
             
-            /* Improve scroll performance */
-            * { -webkit-overflow-scrolling: touch; }
+                    /* Prevent horizontal scroll */
+        body, html { overflow-x: hidden; }
+        main { overflow-x: hidden; }
+        section { overflow-x: hidden; }
+        
+        /* Ensure proper viewport handling */
+        @supports (-webkit-touch-callout: none) {
+            /* iOS specific fixes */
+            body { 
+                -webkit-overflow-scrolling: touch;
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                overflow-y: auto;
+            }
+        }
             
             /* Project card improvements for mobile */
             .project-card { position: relative; }
